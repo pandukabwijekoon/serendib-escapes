@@ -44,7 +44,7 @@ export function WhatsAppWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-3 w-80 overflow-hidden rounded-2xl border border-white/15 bg-[#0D1411]/95 text-white shadow-2xl backdrop-blur-xl"
+            className="mb-3 w-[calc(100vw-2rem)] max-w-80 overflow-hidden rounded-2xl border border-white/15 bg-[#0D1411]/95 text-white shadow-2xl backdrop-blur-xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-[#111A16] px-4 py-3.5">

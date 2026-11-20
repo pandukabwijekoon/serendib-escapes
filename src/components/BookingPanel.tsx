@@ -228,7 +228,7 @@ export function BookingPanel({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 flex h-full w-full max-w-xl flex-col border-l border-white/15 bg-[#0D1411] text-white shadow-2xl"
+            className="relative z-10 flex h-[100dvh] w-full max-w-xl flex-col border-l border-white/15 bg-[#0D1411] text-white shadow-2xl"
           >
             {/* Header */}
             <div className="no-print flex items-center justify-between border-b border-white/10 px-6 py-5">

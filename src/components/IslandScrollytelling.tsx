@@ -221,10 +221,11 @@ function drawScrollytellingFrame(
     // Photorealistic obsidian-black Range Rover Autobiography with physically rolling alloy wheels
     if (isImgReady(assets.suvSide)) {
       const img = assets.suvSide;
-      const targetW = Math.min(w * 0.54, 620);
+      const isMobile = w < 640;
+      const targetW = isMobile ? Math.min(w * 0.88, 380) : Math.min(w * 0.54, 620);
       const targetH = targetW * (img.naturalHeight / img.naturalWidth);
-      const startX = w * 0.28;
-      const endX = w * 0.56;
+      const startX = isMobile ? w * 0.36 : w * 0.28;
+      const endX = isMobile ? w * 0.62 : w * 0.56;
       const vehX = lerp(startX, endX, t);
       const suspensionMicroBounce = Math.sin(t * Math.PI * 8) * 0.6;
       // Align tires cleanly onto roadTop (tires sit ~84.5% down the 16:9 studio frame)
@@ -311,7 +312,7 @@ function drawScrollytellingFrame(
     ctx.fillRect(0, 0, w, h);
 
     // Rotating & centering sleek black vertical highway strip
-    const roadWidth = Math.min(w * 0.17, 196);
+    const roadWidth = w < 640 ? Math.min(w * 0.36, 154) : Math.min(w * 0.17, 196);
     ctx.save();
     ctx.translate(w * 0.5, h * 0.5);
     ctx.rotate(lerp(Math.PI / 2, 0, rotateProgress));
@@ -450,7 +451,7 @@ function drawScrollytellingFrame(
     if (p >= 0.78 && p <= 0.95 && isImgReady(assets.jetTop)) {
       const img = assets.jetTop;
       const flyT = clamp01((p - 0.78) / 0.16);
-      const drawW = Math.max(w * 0.88, 760);
+      const drawW = w < 640 ? Math.max(w * 1.18, 420) : Math.max(w * 0.88, 760);
       const drawH = drawW * (img.naturalHeight / img.naturalWidth);
       const planeX = lerp(w * 1.32, -w * 0.36, flyT);
       const planeY = lerp(h * 0.61, h * 0.66, flyT);
@@ -616,9 +617,9 @@ export function IslandScrollytelling({
       aria-label="Serendib Escapes Scrollytelling Showcase"
       className="relative h-[500vh] w-full bg-[#FFFFFF]"
     >
-      {/* Sticky Pinned 100vh Stage */}
+      {/* Sticky Pinned 100dvh Stage (safe across mobile Safari/Chrome toolbars) */}
       <div
-        className={`sticky top-0 h-screen w-full overflow-hidden transition-colors duration-300 ${
+        className={`sticky top-0 h-[100dvh] w-full overflow-hidden transition-colors duration-300 ${
           isLightStage ? "bg-[#FFFFFF]" : "bg-[#021836]"
         }`}
       >
@@ -630,7 +631,7 @@ export function IslandScrollytelling({
         />
 
         {/* Editorial Stage Overlays */}
-        <div className="pointer-events-none relative z-10 flex h-full w-full flex-col justify-center px-6 sm:px-14">
+        <div className="pointer-events-none relative z-10 flex h-full w-full flex-col justify-center px-4 sm:px-14">
           <AnimatePresence mode="wait">
             {/* BEAT 1: CRISP WHITE ARRIVAL */}
             {activeStage === 0 && (
@@ -640,16 +641,16 @@ export function IslandScrollytelling({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -18 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="mx-auto flex h-full w-full max-w-7xl flex-col justify-between pt-28 pb-12"
+                className="mx-auto flex h-full w-full max-w-7xl flex-col justify-between pt-24 pb-16 sm:pt-28 sm:pb-12"
               >
                 <div className="max-w-3xl">
-                  <span className="text-sm font-semibold text-[#9A7B2C]">
+                  <span className="text-xs font-semibold text-[#9A7B2C] sm:text-sm">
                     Serendib Escapes • Sri Lanka Travel
                   </span>
-                  <h1 className="mt-2 font-serif text-5xl font-semibold leading-[1.02] tracking-tight text-[#0A0F0D] sm:text-7xl">
+                  <h1 className="mt-2 font-serif text-4xl font-semibold leading-[1.02] tracking-tight text-[#0A0F0D] sm:text-7xl">
                     Travel Sri Lanka Easily.
                   </h1>
-                  <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:mt-4 sm:text-base">
                     Scroll down to see how we take care of your entire trip—from
                     airport pickup and private car rides to boat tours and local
                     flights.
@@ -657,11 +658,11 @@ export function IslandScrollytelling({
                 </div>
 
                 <div className="flex items-end justify-between text-white">
-                  <div className="max-w-sm">
+                  <div className="max-w-xs sm:max-w-sm">
                     <p className="text-xs font-semibold text-[#D4AF37]">
                       Private Car Service
                     </p>
-                    <p className="mt-1 text-sm text-white/80">
+                    <p className="mt-0.5 text-xs text-white/85 sm:mt-1 sm:text-sm">
                       Friendly airport pickup directly to your hotel.
                     </p>
                   </div>
@@ -680,20 +681,18 @@ export function IslandScrollytelling({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="mx-auto grid w-full max-w-7xl items-center gap-8 md:grid-cols-12"
+                className="mx-auto flex h-full w-full max-w-7xl flex-col justify-start pt-24 md:grid md:h-auto md:grid-cols-12 md:items-center md:gap-8 md:pt-0"
               >
-                <div className="md:col-span-5">
-                  <span className="text-sm font-semibold text-[#9A7B2C]">
+                <div className="rounded-2xl border border-black/5 bg-white/85 p-5 shadow-sm backdrop-blur-md md:col-span-5 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none">
+                  <span className="text-xs font-semibold text-[#9A7B2C] sm:text-sm">
                     Step 2 • Comfortable Road Trips
                   </span>
-                  <h2 className="mt-2 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-[#0A0F0D] sm:text-6xl">
+                  <h2 className="mt-1.5 font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-[#0A0F0D] sm:mt-2 sm:text-6xl">
                     Safe &amp; Easy
-                    <br />
-                    Rides Across
-                    <br />
-                    Sri Lanka.
+                    <br className="hidden md:inline" /> Rides Across
+                    <br className="hidden md:inline" /> Sri Lanka.
                   </h2>
-                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-600 sm:text-base">
+                  <p className="mt-2.5 max-w-sm text-xs leading-relaxed text-slate-600 sm:mt-4 sm:text-base">
                     Clean, air-conditioned private vehicles with experienced
                     local drivers connecting Sigiriya, Ella, Yala, and the
                     Southern Beaches.
@@ -733,60 +732,56 @@ export function IslandScrollytelling({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.45 }}
-                className="mx-auto flex h-full w-full max-w-7xl flex-col justify-between py-24 text-white"
+                className="mx-auto flex h-full w-full max-w-7xl flex-col justify-between pt-20 pb-20 text-white sm:py-24"
               >
-                <div className="text-center drop-shadow-[0_2px_18px_rgba(2,12,24,0.75)]">
-                  <span className="text-sm font-semibold text-[#D4AF37]">
+                <div className="text-center drop-shadow-[0_2px_18px_rgba(2,12,24,0.8)]">
+                  <span className="text-xs font-semibold text-[#D4AF37] sm:text-sm">
                     Step 3 • Mirissa &amp; Southern Beaches
                   </span>
-                  <h2 className="mt-2 font-serif text-4xl font-semibold leading-tight tracking-tight text-white sm:text-6xl">
+                  <h2 className="mt-1.5 font-serif text-3xl font-semibold leading-tight tracking-tight text-white sm:mt-2 sm:text-6xl">
                     Relax by the Ocean
                     <br />
                     &amp; Sunny Beaches.
                   </h2>
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-12">
-                  <div className="space-y-6 md:col-span-4">
-                    <div className="max-w-xs">
-                      <p className="text-sm font-semibold text-[#D4AF37]">
+                <div className="grid grid-cols-2 gap-2.5 md:grid-cols-12 md:gap-6">
+                  <div className="contents md:col-span-4 md:block md:space-y-6">
+                    <div className="rounded-xl border border-white/10 bg-[#021836]/65 p-3 backdrop-blur-sm md:max-w-xs md:rounded-none md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+                      <p className="text-xs font-semibold text-[#D4AF37] sm:text-sm">
                         Private Boat Rides
                       </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-sky-100/85">
-                        Enjoy calm morning boat trips along the beautiful
-                        Mirissa coastline.
+                      <p className="mt-1 text-[11px] leading-snug text-sky-100/85 sm:mt-1.5 sm:text-sm sm:leading-relaxed">
+                        Calm morning boat trips along the Mirissa coastline.
                       </p>
                     </div>
-                    <div className="max-w-xs">
-                      <p className="text-sm font-semibold text-[#D4AF37]">
+                    <div className="rounded-xl border border-white/10 bg-[#021836]/65 p-3 backdrop-blur-sm md:max-w-xs md:rounded-none md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+                      <p className="text-xs font-semibold text-[#D4AF37] sm:text-sm">
                         Beachfront Hotels
                       </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-sky-100/85">
-                        Stay in peaceful ocean-view rooms just steps away from
-                        the sand.
+                      <p className="mt-1 text-[11px] leading-snug text-sky-100/85 sm:mt-1.5 sm:text-sm sm:leading-relaxed">
+                        Peaceful ocean-view rooms just steps from the sand.
                       </p>
                     </div>
                   </div>
 
                   <div className="hidden md:col-span-4 md:block" />
 
-                  <div className="space-y-6 md:col-span-4 md:text-right">
-                    <div className="ml-auto max-w-xs">
-                      <p className="text-sm font-semibold text-[#D4AF37]">
+                  <div className="contents md:col-span-4 md:block md:space-y-6 md:text-right">
+                    <div className="rounded-xl border border-white/10 bg-[#021836]/65 p-3 backdrop-blur-sm md:ml-auto md:max-w-xs md:rounded-none md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+                      <p className="text-xs font-semibold text-[#D4AF37] sm:text-sm">
                         Whale Watching Trips
                       </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-sky-100/85">
-                        See blue whales and dolphins up close with experienced
-                        local guides.
+                      <p className="mt-1 text-[11px] leading-snug text-sky-100/85 sm:mt-1.5 sm:text-sm sm:leading-relaxed">
+                        Spot blue whales and dolphins with local guides.
                       </p>
                     </div>
-                    <div className="ml-auto max-w-xs">
-                      <p className="text-sm font-semibold text-[#D4AF37]">
+                    <div className="rounded-xl border border-white/10 bg-[#021836]/65 p-3 backdrop-blur-sm md:ml-auto md:max-w-xs md:rounded-none md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
+                      <p className="text-xs font-semibold text-[#D4AF37] sm:text-sm">
                         24/7 Customer Support
                       </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-sky-100/85">
-                        Instant WhatsApp and phone help throughout your entire
-                        holiday.
+                      <p className="mt-1 text-[11px] leading-snug text-sky-100/85 sm:mt-1.5 sm:text-sm sm:leading-relaxed">
+                        Instant WhatsApp and phone help throughout your trip.
                       </p>
                     </div>
                   </div>
@@ -804,11 +799,11 @@ export function IslandScrollytelling({
                 transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                 className="flex h-full w-full items-start justify-center pt-24 sm:pt-28"
               >
-                <div className="mx-auto max-w-3xl rounded-2xl border border-black/5 bg-white/75 px-6 py-4 text-center shadow-sm backdrop-blur-md sm:px-8 sm:py-5">
-                  <span className="text-sm font-semibold text-[#9A7B2C]">
+                <div className="mx-auto max-w-3xl rounded-2xl border border-black/5 bg-white/80 px-5 py-3.5 text-center shadow-sm backdrop-blur-md sm:px-8 sm:py-5">
+                  <span className="text-xs font-semibold text-[#9A7B2C] sm:text-sm">
                     Step 4 • Local Flights
                   </span>
-                  <h2 className="mt-1.5 font-serif text-3xl font-semibold text-[#0A0F0D] sm:text-5xl lg:text-6xl">
+                  <h2 className="mt-1 font-serif text-2xl font-semibold text-[#0A0F0D] sm:mt-1.5 sm:text-5xl lg:text-6xl">
                     Quick Flights Across Sri Lanka.
                   </h2>
                 </div>
@@ -823,21 +818,21 @@ export function IslandScrollytelling({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-auto mx-auto w-full max-w-5xl pt-10"
+                className="pointer-events-auto mx-auto max-h-[78dvh] w-full max-w-5xl overflow-y-auto pt-12 pb-6 sm:pt-10"
               >
-                <div className="mb-8 flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-end">
+                <div className="mb-5 flex flex-col justify-between gap-3 border-b border-slate-200 pb-4 sm:mb-8 sm:flex-row sm:items-end sm:gap-4 sm:pb-6">
                   <div>
-                    <span className="text-sm font-semibold text-[#9A7B2C]">
+                    <span className="text-xs font-semibold text-[#9A7B2C] sm:text-sm">
                       Guest Reviews
                     </span>
-                    <h2 className="mt-1 font-serif text-3xl font-semibold text-[#0A0F0D] sm:text-5xl">
+                    <h2 className="mt-1 font-serif text-2xl font-semibold text-[#0A0F0D] sm:text-5xl">
                       What Our Travelers Say
                     </h2>
                   </div>
                   <button
                     type="button"
                     onClick={onStartCustomItinerary}
-                    className="inline-flex items-center gap-2 self-start rounded-full bg-[#0A0F0D] px-6 py-3 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#1A2420]"
+                    className="inline-flex items-center gap-2 self-start rounded-full bg-[#0A0F0D] px-5 py-2.5 text-xs font-semibold text-[#D4AF37] transition hover:bg-[#1A2420] sm:px-6 sm:py-3 sm:text-sm"
                   >
                     <span>Plan Your Trip</span>
                     <ArrowRight className="h-4 w-4" />
@@ -848,22 +843,22 @@ export function IslandScrollytelling({
                   {TESTIMONIALS.map((item) => (
                     <div
                       key={item.author}
-                      className="grid gap-4 py-5 sm:grid-cols-12 sm:items-start"
+                      className="grid gap-2.5 py-3.5 sm:grid-cols-12 sm:items-start sm:gap-4 sm:py-5"
                     >
                       <div className="flex items-center gap-3 sm:col-span-4">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0A0F0D] font-serif text-sm font-semibold text-[#D4AF37]">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0A0F0D] font-serif text-xs font-semibold text-[#D4AF37] sm:h-11 sm:w-11 sm:text-sm">
                           {item.initials}
                         </div>
                         <div>
-                          <p className="font-serif text-lg font-semibold text-[#0A0F0D]">
+                          <p className="font-serif text-base font-semibold text-[#0A0F0D] sm:text-lg">
                             {item.author}
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-[11px] text-slate-500 sm:text-xs">
                             {item.origin}
                           </p>
                         </div>
                       </div>
-                      <p className="text-sm leading-relaxed text-slate-700 sm:col-span-8">
+                      <p className="text-xs leading-relaxed text-slate-700 sm:col-span-8 sm:text-sm">
                         &ldquo;{item.quote}&rdquo;
                       </p>
                     </div>
@@ -884,10 +879,10 @@ export function IslandScrollytelling({
           Book Now
         </button>
 
-        {/* Bottom-Center Minimal Stage HUD + Bottom-Right Circular Scroll Progress */}
-        <div className="no-print absolute inset-x-0 bottom-5 z-20 flex items-center justify-between px-6 sm:px-10">
+        {/* Bottom-Center Minimal Stage HUD (Mobile + Desktop) + Bottom-Right Circular Scroll Progress */}
+        <div className="no-print absolute inset-x-0 bottom-4 z-20 flex items-center justify-between px-4 sm:bottom-5 sm:px-10">
           <div
-            className={`hidden items-center gap-4 rounded-full border px-4 py-2 backdrop-blur-md transition-colors sm:flex ${
+            className={`flex items-center gap-2.5 rounded-full border px-3 py-1.5 backdrop-blur-md transition-colors sm:gap-4 sm:px-4 sm:py-2 ${
               isLightStage
                 ? "border-slate-300/80 bg-white/85 text-slate-700"
                 : "border-white/15 bg-[#0A0F0D]/60 text-white/80"
@@ -900,7 +895,7 @@ export function IslandScrollytelling({
                   key={stage.code}
                   type="button"
                   onClick={() => jumpToStage(stage.progressTarget)}
-                  className={`text-xs font-medium transition-colors ${
+                  className={`text-[11px] font-medium transition-colors sm:text-xs ${
                     active
                       ? isLightStage
                         ? "font-semibold text-[#9A7B2C]"
@@ -908,7 +903,8 @@ export function IslandScrollytelling({
                       : "opacity-60 hover:opacity-100"
                   }`}
                 >
-                  {stage.code}. {stage.label}
+                  <span>{stage.code}</span>
+                  <span className="hidden sm:inline">. {stage.label}</span>
                 </button>
               );
             })}

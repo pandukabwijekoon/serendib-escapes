@@ -69,7 +69,7 @@ export function DestinationMorphDeck({
     <section
       id="destinations"
       aria-label="Sri Lanka Luxury Destinations Interactive Deck"
-      className="relative h-screen min-h-[680px] w-full overflow-hidden bg-[#0A0F0D]"
+      className="relative h-[100dvh] min-h-[680px] w-full overflow-hidden bg-[#0A0F0D]"
     >
       {/* Top Controls Bar when a slide is active */}
       <AnimatePresence>
@@ -79,7 +79,7 @@ export function DestinationMorphDeck({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.35, ease: MORPH_EASE }}
-            className="pointer-events-none absolute inset-x-0 top-24 z-30 flex items-center justify-between px-6 sm:px-10"
+            className="pointer-events-none absolute inset-x-0 top-20 z-30 flex items-center justify-between px-4 sm:top-24 sm:px-10"
           >
             <button
               type="button"
@@ -206,7 +206,7 @@ export function DestinationMorphDeck({
                         ease: MORPH_EASE,
                       }}
                       onClick={(e) => e.stopPropagation()}
-                      className="glass-panel mt-6 w-[300px] max-w-[calc(100vw-3rem)] shrink-0 rounded-2xl p-6 shadow-2xl sm:w-[440px] lg:w-[540px]"
+                      className="glass-panel mt-4 max-h-[60dvh] w-full max-w-[calc(100vw-2rem)] shrink-0 overflow-y-auto rounded-2xl p-4 shadow-2xl sm:mt-6 sm:max-h-none sm:w-[440px] sm:p-6 lg:w-[540px]"
                     >
                       <p className="text-sm leading-relaxed text-white/85 sm:text-base">
                         {slide.description}

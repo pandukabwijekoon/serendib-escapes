@@ -66,8 +66,8 @@ export function PackagesShowcase({
           </div>
 
           {/* Visitor Type & Currency Controls */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-1 rounded-full border border-white/15 bg-[#111815] p-1.5">
+          <div className="flex w-full flex-wrap items-center gap-2.5 sm:w-auto sm:gap-3">
+            <div className="flex w-full items-center gap-1 rounded-full border border-white/15 bg-[#111815] p-1 sm:w-auto sm:p-1.5">
               {(
                 [
                   { value: "International", label: "Foreign Visitors" },
@@ -78,7 +78,7 @@ export function PackagesShowcase({
                   key={tab.value}
                   type="button"
                   onClick={() => setVisitorType(tab.value)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                  className={`flex-1 rounded-full px-3 py-1.5 text-center text-xs font-medium transition sm:flex-none sm:px-4 sm:text-sm ${
                     visitorType === tab.value
                       ? "bg-[#D4AF37] text-[#0A0F0D]"
                       : "text-white/75 hover:text-white"
