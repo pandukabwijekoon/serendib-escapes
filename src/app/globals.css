@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-obsidian: #0A0F0D;
+  --color-charcoal: #111815;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F3D97D;
+  --color-sigiriya: #C87D16;
+  --color-ella: #0B5D47;
+  --color-mirissa: #0F4C75;
+  --color-yala: #9B1C1C;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #0A0F0D;
+    color: #F8FAFC;
+  }
+
+  body {
+    background-color: #0A0F0D;
+    color: #F8FAFC;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(212, 175, 55, 0.35);
+    color: #FFFFFF;
+  }
+}
+
+.glass-panel {
+  background: rgba(17, 24, 21, 0.68);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-gold {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.14) 0%,
+    rgba(17, 24, 21, 0.78) 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 175, 55, 0.32);
+}
+
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #0A0F0D !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
