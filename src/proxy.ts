@@ -13,7 +13,7 @@ const AI_AND_SCRAPER_UA_REGEX =
 const BLOCKED_PROBE_PATHS =
   /(\.env|\.git|wp-admin|wp-login|wp-content|phpmyadmin|xmlrpc\.php|\.php$|\.asp$|\.aspx$|\.sql$|\.bak$)/i;
 
-const HUMAN_GATE_COOKIE_NAME = "serendib_human_gate";
+const HUMAN_GATE_COOKIE_NAME = "__hg_s26";
 const HUMAN_GATE_COOKIE_VALUE = "verified_js_2026_srd";
 
 /**
